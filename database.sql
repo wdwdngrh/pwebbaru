@@ -246,8 +246,8 @@ INSERT INTO communities (community_name, slug, description, full_description, ic
 
 -- Sample Topics
 INSERT INTO topics (title, content, author_id, category_id, tags) VALUES
-('Cara cepat menghitung integral?', 'Saya kesulitan menghitung integral tentu dengan batas yang rumit. Ada tips atau trik khusus yang bisa dipake?', 2, 2, 'integral,kalkulus,matematika'),
-('Tips mengerjakan soal TPS', 'Bagaimana strategi terbaik untuk mengerjakan soal TPS agar waktu tidak habis?', 3, 1, 'tps,strategi,tips');
+('Cara cepat menghitung integral?', 'Saya kesulitan menghitung integral tentu dengan batas yang rumit. Ada tips atau trik khusus yang bisa dipake?', 2, 4, 'integral,kalkulus,pk'),
+('Tips mengerjakan soal PM', 'Bagaimana strategi terbaik untuk mengerjakan soal PM? Gak pernah bisa paham maksud soalnya', 3, 7, 'pm,strategi,tips');
 
 -- Update counts
 UPDATE categories c SET topic_count = (SELECT COUNT(*) FROM topics t WHERE t.category_id = c.category_id);
