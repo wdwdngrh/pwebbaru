@@ -2,10 +2,10 @@
 date_default_timezone_set('Asia/Jakarta');
 
 // Database configuration for PDO
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'utbk_forum');
+define('DB_HOST', getenv('DB_HOST'));  // Use the environment variable for the database host
+define('DB_USER', getenv('DB_USER'));  // Use the environment variable for the database user
+define('DB_PASS', getenv('DB_PASS'));  // Use the environment variable for the database password
+define('DB_NAME', getenv('DB_NAME'));  // Use the environment variable for the database name
 
 class Database {
     private static $instance = null;
