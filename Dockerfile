@@ -1,12 +1,18 @@
 FROM php:8.4-apache
 
-# Install necessary dependencies and PDO extensions
+# Install necessary PHP extensions
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql mysqli
+
+# Disable other MPMs (e.g., mpm_event and mpm_worker)
+RUN a2dismod mpm_event mpm_worker
+
+# Enable mpm_prefork
+RUN a2enmod mpm_prefork
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
@@ -18,7 +24,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 8080
 
 # Start Apache in the foreground
 CMD ["apache2-foreground"]
