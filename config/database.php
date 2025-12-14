@@ -1,12 +1,11 @@
 <?php
 date_default_timezone_set('Asia/Jakarta');
-// config/database.php - Database configuration
 
-// Railway menyediakan environment variables untuk konfigurasi database
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: '');
-define('DB_NAME', getenv('DB_NAME') ?: 'utbk_forum');
+// Database configuration for PDO
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'utbk_forum');
 
 class Database {
     private static $instance = null;
@@ -14,14 +13,11 @@ class Database {
     
     private function __construct() {
         try {
-            $this->conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-            
-            if ($this->conn->connect_error) {
-                throw new Exception("Connection failed: " . $this->conn->connect_error);
-            }
-            
-            $this->conn->set_charset("utf8mb4");
-        } catch (Exception $e) {
+            // Use PDO instead of mysqli
+            $this->conn = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conn->exec("SET NAMES utf8mb4");
+        } catch (PDOException $e) {
             die("Database connection error: " . $e->getMessage());
         }
     }
@@ -46,11 +42,11 @@ class Database {
     }
     
     public function escape($string) {
-        return $this->conn->real_escape_string($string);
+        return $this->conn->quote($string); // PDO's escape
     }
     
     public function lastInsertId() {
-        return $this->conn->insert_id;
+        return $this->conn->lastInsertId();
     }
     
     // Prevent cloning
